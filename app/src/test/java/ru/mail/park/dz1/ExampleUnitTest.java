@@ -1,4 +1,4 @@
-package ru.mail.park.dz_1;
+package ru.mail.park.dz1;
 
 import org.junit.Test;
 

@@ -1,36 +1,37 @@
-package ru.mail.park.dz_1;
+package ru.mail.park.dz1.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.mail.park.dz1.R;
+import ru.mail.park.dz1.adapter.FeedAdapter;
+import ru.mail.park.dz1.adapter.OnItemClicked;
+
+import static ru.mail.park.dz1.fragments.SelectedNumberFragment.newInstance;
+
 public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
+
     private List<Integer> data;
+    private static final String VALUE_TAG = "value_tag";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_matrix_of_numbers, container, false);
     }
 
@@ -43,7 +44,7 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
             data = new ArrayList<>();
             insert(data);
         } else {
-            data = savedInstanceState.getIntegerArrayList("values");
+            data = savedInstanceState.getIntegerArrayList(VALUE_TAG);
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -51,7 +52,6 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), requireContext().getResources().getInteger(R.integer.orientation_landscape)));
         }
-
 
         FeedAdapter adapter = new FeedAdapter(data, this);
         recyclerView.setAdapter(adapter);
@@ -63,16 +63,17 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
             Toast.makeText(requireContext(), "Number was added!", Toast.LENGTH_SHORT).show();
         });
     }
+
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@Nullable Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         if (savedInstanceState == null) {
             savedInstanceState = new Bundle();
         }
-        savedInstanceState.putIntegerArrayList("values", (ArrayList<Integer>)data);
+        savedInstanceState.putIntegerArrayList(VALUE_TAG, (ArrayList<Integer>) data);
     }
 
-    public void insert(List<Integer> data) {
+    public void insert(@NonNull List<Integer> data) {
         for (int i = 1; i <= 100; i++) {
             data.add(i);
         }
@@ -80,9 +81,8 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
 
     @Override
     public void onItemClick(int value) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Fragment fragment = new SelectedNumberFragment(value);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment fragment = newInstance(value);
         fragmentTransaction.add(R.id.fragInMain, fragment, "NUMBER_FRAGMENT").addToBackStack("STACK");
         fragmentTransaction.commit();
     }

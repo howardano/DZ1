@@ -1,9 +1,5 @@
-package ru.mail.park.dz_1;
+package ru.mail.park.dz1.adapter;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +7,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-class FeedAdapter extends RecyclerView.Adapter<NumbersViewHolder> {
+import ru.mail.park.dz1.R;
+
+public class FeedAdapter extends RecyclerView.Adapter<NumbersViewHolder> {
 
     private final List<Integer> numbers;
-    private OnItemClicked clicked;
+    private final OnItemClicked clicked;
 
     public FeedAdapter(List<Integer> numbers, OnItemClicked clicked) {
         this.numbers = numbers;
@@ -35,14 +32,7 @@ class FeedAdapter extends RecyclerView.Adapter<NumbersViewHolder> {
     public void onBindViewHolder(@NonNull NumbersViewHolder holder, int position) {
         Integer current = numbers.get(position);
         holder.bind(current);
-        holder.getNumber().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clicked.onItemClick(current);
-
-            }
-        });
-
+        holder.getNumber().setOnClickListener(v -> clicked.onItemClick(current));
     }
 
     @Override
