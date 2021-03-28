@@ -37,7 +37,6 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.setRetainInstance(true);
         RecyclerView recyclerView = view.findViewById(R.id.feed);
 
         if (data == null && savedInstanceState == null) {
@@ -71,12 +70,6 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
             savedInstanceState = new Bundle();
         }
         savedInstanceState.putIntegerArrayList("values", (ArrayList<Integer>)data);
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // retain this fragment when activity is re-initialized
-        setRetainInstance(true);
     }
 
     public void insert(List<Integer> data) {
