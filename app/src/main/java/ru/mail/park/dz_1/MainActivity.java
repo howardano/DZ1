@@ -25,7 +25,11 @@ public class MainActivity extends AppCompatActivity {
         Button button = findViewById(R.id.add);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragInMain, new MatrixOfNumbersFragment());
+        if (savedInstanceState == null) {
+            Fragment fragment = new MatrixOfNumbersFragment();
+            fragmentTransaction.replace(R.id.fragInMain, fragment, "MATRIX_TAG");
+        }
+
         fragmentTransaction.commit();
     }
 

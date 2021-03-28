@@ -47,9 +47,9 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
+            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), requireContext().getResources().getInteger(R.integer.orientation_portrait)));
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+            recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), requireContext().getResources().getInteger(R.integer.orientation_landscape)));
         }
 
 
@@ -82,7 +82,8 @@ public class MatrixOfNumbersFragment extends Fragment implements OnItemClicked {
     public void onItemClick(int value) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragInMain, new SelectedNumberFragment(value), "NUMBER_FRAGMENT");
+        Fragment fragment = new SelectedNumberFragment(value);
+        fragmentTransaction.add(R.id.fragInMain, fragment, "NUMBER_FRAGMENT").addToBackStack("STACK");
         fragmentTransaction.commit();
     }
 }

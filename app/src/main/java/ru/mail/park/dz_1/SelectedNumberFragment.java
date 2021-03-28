@@ -37,10 +37,7 @@ public class SelectedNumberFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                //fragmentManager.popBackStack();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragInMain, new MatrixOfNumbersFragment());
-                fragmentTransaction.commit();
+                fragmentManager.popBackStack();
             }
         });
     }
